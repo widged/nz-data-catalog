@@ -1,4 +1,3 @@
 node_modules
-_ links
-merged-default/snapshots
-merged-geo/snapshots
+scraping/_ links
+raw_*.png
