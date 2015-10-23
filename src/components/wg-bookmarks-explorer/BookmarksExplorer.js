@@ -55,8 +55,9 @@ class BookmarkCard extends Component {
 							 </div>
 						 </div>
 						 <div className="card-tags">
-							 {licenseIcon    ? <div className="tag-wrapper"><i className={'license fa ' + licenseIcon}></i> <em>license</em></div> : '' }
-							 {hasCost    ? <div className="tag-wrapper"><i className="cost fa fa-usd"></i> <em>cost</em></div> : '' }
+							 {licenseIcon  ? <div className="tag-wrapper"><i className={'license fa ' + licenseIcon}></i></div> : '' }
+							 {hasCost      ? <div className="tag-wrapper"><i className="cost fa fa-usd"></i> </div> : '' }
+							 {true  ? <div className="tag-wrapper"><i className="format">tsv,xls</i> </div> : '' }
 						 </div>
 					 </div>
 				</LazyLoader>

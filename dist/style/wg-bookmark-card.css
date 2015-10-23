@@ -132,35 +132,37 @@ wg-bookmark-card .card-tags {
   text-transform: none;
   height: 18px;
   background: #e8e8e8;
-  border-radius: 4px;
   box-shadow: none;
   overflow: hidden;
   margin-left: 6px;
 }
 
 .tag-wrapper em {
-  font-family: 'Open Sans Consdensed'
   display: inline-block;
   padding: 0;
   font-size: 0.7em;
   padding: 4px 9px 3px 3px;
 }
 .tag-wrapper i {
-  background-color: #fdd411;
-    display: inline-block;
-    box-sizing: border-box;
-    height: 18px;
-    width: 18px;
-    text-align: center;
-    vertical-align: middle;
-    padding-top: 3px;
+  opacity: 0.8;
+  display: inline-block;
+  box-sizing: border-box;
+  height: 18px;
+  min-width: 18px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 3px 3px 3px 3px;
 }
 
 .tag-wrapper i.license {
-  background-color: #fff35a;
+  background-color: #3caa9c;
 }
 
 .tag-wrapper i.cost {
-  background-color: #9fd06a;
+  background-color: #ffaa32;
   font-size: 0.9em;
+}
+.tag-wrapper i.format {
+  background-color: #c4cfd4;
+  font-variant: small-caps;
 }

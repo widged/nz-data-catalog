@@ -19881,24 +19881,23 @@
 								licenseIcon ? _react2['default'].createElement(
 									'div',
 									{ className: 'tag-wrapper' },
-									_react2['default'].createElement('i', { className: 'license fa ' + licenseIcon }),
-									' ',
-									_react2['default'].createElement(
-										'em',
-										null,
-										'license'
-									)
+									_react2['default'].createElement('i', { className: 'license fa ' + licenseIcon })
 								) : '',
 								hasCost ? _react2['default'].createElement(
 									'div',
 									{ className: 'tag-wrapper' },
 									_react2['default'].createElement('i', { className: 'cost fa fa-usd' }),
-									' ',
+									' '
+								) : '',
+								true ? _react2['default'].createElement(
+									'div',
+									{ className: 'tag-wrapper' },
 									_react2['default'].createElement(
-										'em',
-										null,
-										'cost'
-									)
+										'i',
+										{ className: 'format' },
+										'tsv,xls'
+									),
+									' '
 								) : ''
 							)
 						)
