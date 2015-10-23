@@ -1,0 +1,166 @@
+wg-bookmark-card {
+  background: #22A7F0;
+  color: #222;
+  font-size: 9pt;
+}
+
+wg-bookmark-card .card {
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 283px;
+  overflow: hidden;
+  margin: 5% auto;
+  box-shadow: 0 1px 21px rgba(0,0,0,.2);
+  background-color: #fff;
+  border-radius: 4px;
+  transition: 400ms ease;
+}
+
+wg-bookmark-card a {
+  color: currentColor;
+  text-decoration: none;
+}
+
+
+wg-bookmark-card a:hover .card {
+  box-shadow: 0 10px 50px rgba(0,0,0,.6);
+}
+
+wg-bookmark-card .card-img {
+  position: relative;
+	width: 200px;
+  height: 145px;
+}
+
+wg-bookmark-card .card-img img {
+  position: absolute;
+  width:100%;
+  border-radius: 4px 4px 0px 0px;
+}
+
+wg-bookmark-card .card-img-placeholder {
+  position: absolute;
+  width: 200px;
+  height: 145px;
+  background-color: rgba(44,62,80,0.2);
+}
+
+wg-bookmark-card .card-caption {
+  position: relative;
+  box-sizing: border-box;
+  background: #ffffff;
+  padding: 15px 25px 5px 15px;
+  border-radius: 0px 0px 4px 4px;
+  height: calc(283px - 145px);
+}
+
+wg-bookmark-card .card-caption-inner {
+  overflow: hidden;
+  line-height: 1.2;
+  height: calc(100% - 25px)
+}
+
+wg-bookmark-card .card-caption h1 {
+  font-family: 'Open Sans Condensed';
+  padding: 0; margin: 0;
+  margin-bottom: 8px;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+wg-bookmark-card .card-caption span.date {
+  color: #657d8b;
+  font-size: 0.9em;
+}
+
+wg-bookmark-card .card-caption p {
+  font-size: 1em;
+}
+
+
+
+wg-bookmark-card .card-caption .card-action {
+  position: absolute;
+  right: 20px;
+  top: -16px;
+}
+
+
+wg-bookmark-card .card-action #action-btn {
+  position: relative;
+  padding: 9px 12px;
+  margin-left: 3px;
+  border-radius: 50em;
+  box-shadow: 0 2px 1px rgba(0,0,0,.2);
+  transition: 400ms ease;
+  font-size: 1em;
+  background: #446CB3;
+  color: #fff;
+  font-weight: bold;
+}
+
+wg-bookmark-card .card-action #action-btn:hover {
+  font-size: 0.9em;
+  background: #3B5998;
+  color: #fff;
+  padding: 12px 15px;
+  border-radius: 50em;
+  box-shadow: 0 4px 5px rgba(0,0,0,.3);
+}
+
+
+
+wg-bookmark-card .card-tags {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+  display: inline-table;
+  color: #222;
+  transition: 400ms ease;
+}
+
+
+.tag-wrapper {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  width: auto!important;
+  margin: 0; padding: 0;
+  max-width: 9999px;
+  vertical-align: baseline;
+  text-transform: none;
+  height: 18px;
+  background: #e8e8e8;
+  border-radius: 4px;
+  box-shadow: none;
+  overflow: hidden;
+  margin-left: 6px;
+}
+
+.tag-wrapper em {
+  font-family: 'Open Sans Consdensed'
+  display: inline-block;
+  padding: 0;
+  font-size: 0.7em;
+  padding: 4px 9px 3px 3px;
+}
+.tag-wrapper i {
+  background-color: #fdd411;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 3px;
+}
+
+.tag-wrapper i.license {
+  background-color: #fff35a;
+}
+
+.tag-wrapper i.cost {
+  background-color: #9fd06a;
+  font-size: 0.9em;
+}
