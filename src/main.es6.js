@@ -3,7 +3,7 @@
 import React             from 'react';
 import ReactDOM          from 'react-dom';
 import BookmarksExplorer from './components/wg-bookmarks-explorer/BookmarksExplorer';
-import SearchInput       from './components/search-input/SearchInput.react.es6.js';
+import SearchInput       from './components/wg-search-input/SearchInput.react.es6.js';
 
 let {Component,  PropTypes} = React;
 let {findDOMNode} = ReactDOM;
@@ -14,18 +14,31 @@ let {findDOMNode} = ReactDOM;
 
 export default function main() {
 
+	function getLongestValue(v) {
+		if(!Array.isArray(v)) { return ''; }
+		return v.reduce((acc,d) => {
+			if(d && d.length > acc.length) { acc = d; }
+			return acc;
+		}, '');
+
+	}
+
 	let dataList = require('../dist/data/merged.js');
 	var list = dataList.split(/\n/).map((d) => {
 		d = d.replace(/\\/g,'\\\\');
 		d = d.replace(/<a href="(.*?)">/g, "<a href='$1'>");
 		let {url,sha1, sources, props} = JSON.parse(d);
-		let searchText = 'title,description,tags'.split(',').reduce((acc, key) => {
+		let searchText = 'title,description,agency,tags'.split(',').reduce((acc, key) => {
 			let arr = props[key];
 			return acc + ' ' + (arr || []).join(' ');
 		}, '');
-		let title = props.title[0];
+		let title   = getLongestValue(props.title);
+		let agency  = getLongestValue(props.agency);
+		let cost    = getLongestValue(props.cost);
+		let license = getLongestValue(props.license);
+		let format = getLongestValue(props.format);
 		let thumbSrc = '../dist/assets/url_thumbs/tn_'+sha1+'.jpg';
-		return {title, url, thumbSrc,searchText};
+		return {title, url, thumbSrc,searchText, agency, cost, license, format};
 	});
 
 	function debounce(fn, delay) {
@@ -56,10 +69,14 @@ export default function main() {
 	function render(list) {
 		ReactDOM.render(
 			(<wg-app>
-				<aside>
-					<SearchInput onChange={onDebounceSearchChange} />
-				</aside>
+				<nav>
+					<h1>New Zealand Datasets</h1>
+					<h2>A compilation of various lists of resources found on the internet.</h2>
+				</nav>
 				<main>
+					<aside>
+						<SearchInput onChange={onDebounceSearchChange} />
+					</aside>
 					<BookmarksExplorer list={list}/>
 				</main>
 			</wg-app>),
