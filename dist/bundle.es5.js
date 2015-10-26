@@ -124,12 +124,13 @@
 				return acc + ' ' + (arr || []).join(' ');
 			}, '');
 			var title = getLongestValue(props.title);
+			var description = getLongestValue(props.description);
 			var agency = getLongestValue(props.agency);
 			var cost = getLongestValue(props.cost);
 			var license = getLongestValue(props.license);
 			var format = getLongestValue(props.format);
 			var thumbSrc = '../dist/assets/url_thumbs/tn_' + sha1 + '.jpg';
-			return { title: title, url: url, thumbSrc: thumbSrc, searchText: searchText, agency: agency, cost: cost, license: license, format: format };
+			return { title: title, url: url, thumbSrc: thumbSrc, searchText: searchText, description: description, agency: agency, cost: cost, license: license, format: format };
 		});
 
 		function debounce(fn, delay) {
@@ -166,15 +167,20 @@
 					'nav',
 					null,
 					_react2['default'].createElement(
-						'h1',
-						null,
-						'New Zealand Datasets'
+						'div',
+						{ className: 'nav-text' },
+						_react2['default'].createElement(
+							'h1',
+							null,
+							'New Zealand Datasets'
+						),
+						_react2['default'].createElement(
+							'h2',
+							null,
+							'A compilation of various lists of resources found on the internet.'
+						)
 					),
-					_react2['default'].createElement(
-						'h2',
-						null,
-						'A compilation of various lists of resources found on the internet.'
-					)
+					_react2['default'].createElement('div', { className: 'nav-band' })
 				),
 				_react2['default'].createElement(
 					'main',
@@ -19783,8 +19789,53 @@
 	var PropTypes = _react2['default'].PropTypes;
 	var findDOMNode = _reactDom2['default'].findDOMNode;
 
+	var Normalizer = (function () {
+		var knownFormats = {
+			'other': '-',
+			'api': 'api',
+			'webservicexml': 'api',
+			'webservicejson': 'api',
+			'datastream': 'api',
+			'othergeo': 'geo',
+			'htmltable': 'table',
+			'xml': 'xml',
+			'marcandmarcxml': 'xml',
+			'geo': 'geo',
+			'kmlshp': 'geo',
+			'kml': 'geo',
+			'spreadsheet': 'table',
+			'csv': 'table',
+			'database': 'db',
+			'onlinedatabase': 'db',
+			'xmlatomrss': 'rss',
+			'pdf': 'pdf',
+			'html': 'html'
+		};
+
+		function normalizeFormats(format) {
+
+			return format.split(/\s*,\s*/).reduce(function (acc, d) {
+				var m = d.match(/\[(.*?)\]\((.*?)\)/);
+				if (m) {
+					d = m[1];
+				}
+				d = d.toLowerCase();
+				d = d.replace(/[^a-z]/g, '');
+				d = knownFormats[d] || d;
+				if (d !== '-' && acc.indexOf(d) === -1) {
+					acc.push(d);
+				}
+				return acc;
+			}, []).join(', ');
+		}
+
+		return { normalizeFormats: normalizeFormats };
+	})();
+
 	var BookmarkCard = (function (_Component) {
 		_inherits(BookmarkCard, _Component);
+
+		// based on http://codepen.io/doonnn/pen/QbBKxv?editors=110
 
 		function BookmarkCard(props) {
 			_classCallCheck(this, BookmarkCard);
@@ -19814,9 +19865,11 @@
 				var title = d.title;
 				var url = d.url;
 				var thumbSrc = d.thumbSrc;
+				var description = d.description;
 				var agency = d.agency;
 				var cost = d.cost;
 				var license = d.license;
+				var format = d.format;
 
 				var hasCost = cost.length && cost !== 'No' ? true : false;
 
@@ -19831,76 +19884,107 @@
 					console.log(license);
 				}
 
-				// <a href={url}><svg width="16" height="16" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1408 928v320q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h704q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113v-320q0-14 9-23t23-9h64q14 0 23 9t9 23zm384-864v512q0 26-19 45t-45 19-45-19l-176-176-652 652q-10 10-23 10t-23-10l-114-114q-10-10-10-23t10-23l652-652-176-176q-19-19-19-45t19-45 45-19h512q26 0 45 19t19 45z"/></svg></a>
-				// based on http://codepen.io/doonnn/pen/QbBKxv?editors=110
+				var formatList = Normalizer.normalizeFormats(format);
+				if (!description.length) {
+					description = 'N/A';
+				}
+
+				var visibleCard = _react2['default'].createElement(
+					'div',
+					{ className: 'card' },
+					_react2['default'].createElement(
+						'div',
+						{ className: 'card-img' },
+						_react2['default'].createElement('img', { src: thumbSrc }),
+						_react2['default'].createElement('div', { className: 'card-img-placeholder' })
+					),
+					_react2['default'].createElement(
+						'div',
+						{ className: 'card-action' },
+						_react2['default'].createElement(
+							'a',
+							{ href: url, target: 'blank' },
+							_react2['default'].createElement('i', { id: 'action-btn', className: 'fa fa-angle-right' })
+						)
+					),
+					_react2['default'].createElement(
+						'div',
+						{ className: 'card-caption' },
+						_react2['default'].createElement(
+							'h1',
+							null,
+							title
+						),
+						_react2['default'].createElement(
+							'span',
+							{ className: 'publisher' },
+							agency
+						),
+						_react2['default'].createElement(
+							'div',
+							{ className: 'card-description' },
+							' ',
+							description,
+							' '
+						)
+					),
+					_react2['default'].createElement(
+						'div',
+						{ className: 'card-tags' },
+						formatList ? _react2['default'].createElement(
+							'div',
+							{ className: 'tag-wrapper' },
+							_react2['default'].createElement(
+								'i',
+								{ className: 'format' },
+								formatList
+							),
+							' '
+						) : '',
+						licenseIcon ? _react2['default'].createElement(
+							'div',
+							{ className: 'tag-wrapper' },
+							_react2['default'].createElement('i', { className: 'license fa ' + licenseIcon })
+						) : '',
+						hasCost ? _react2['default'].createElement(
+							'div',
+							{ className: 'tag-wrapper' },
+							_react2['default'].createElement('i', { className: 'cost fa fa-usd' }),
+							' '
+						) : ''
+					)
+				);
+
+				var notYetVisibleCard = _react2['default'].createElement(
+					'div',
+					{ className: 'card' },
+					_react2['default'].createElement(
+						'div',
+						{ className: 'card-img' },
+						_react2['default'].createElement(
+							'p',
+							null,
+							'Loading...'
+						),
+						_react2['default'].createElement('div', { className: 'card-img-placeholder' })
+					),
+					_react2['default'].createElement(
+						'div',
+						{ className: 'card-caption' },
+						_react2['default'].createElement(
+							'h1',
+							null,
+							title
+						)
+					)
+				);
 				return _react2['default'].createElement(
 					'wg-bookmark-card',
 					null,
 					_react2['default'].createElement(
 						_wgLazyLoaderLazyLoader2['default'],
-						{ height: 200, threshold: 100, onVisible: onLazyLoaded },
-						_react2['default'].createElement(
-							'div',
-							{ className: 'card' },
-							_react2['default'].createElement(
-								'div',
-								{ className: 'card-img' },
-								visible ? _react2['default'].createElement('img', { src: thumbSrc }) : '',
-								_react2['default'].createElement('div', { className: 'card-img-placeholder' })
-							),
-							_react2['default'].createElement(
-								'div',
-								{ className: 'card-caption' },
-								_react2['default'].createElement(
-									'div',
-									{ className: 'card-action' },
-									_react2['default'].createElement(
-										'a',
-										{ href: url, target: 'blank' },
-										_react2['default'].createElement('i', { id: 'action-btn', className: 'fa fa-angle-right' })
-									)
-								),
-								_react2['default'].createElement(
-									'div',
-									{ className: 'card-caption-inner' },
-									_react2['default'].createElement(
-										'h1',
-										null,
-										title
-									),
-									_react2['default'].createElement(
-										'span',
-										{ className: 'date' },
-										agency
-									)
-								)
-							),
-							_react2['default'].createElement(
-								'div',
-								{ className: 'card-tags' },
-								licenseIcon ? _react2['default'].createElement(
-									'div',
-									{ className: 'tag-wrapper' },
-									_react2['default'].createElement('i', { className: 'license fa ' + licenseIcon })
-								) : '',
-								hasCost ? _react2['default'].createElement(
-									'div',
-									{ className: 'tag-wrapper' },
-									_react2['default'].createElement('i', { className: 'cost fa fa-usd' }),
-									' '
-								) : '',
-								true ? _react2['default'].createElement(
-									'div',
-									{ className: 'tag-wrapper' },
-									_react2['default'].createElement(
-										'i',
-										{ className: 'format' },
-										'tsv,xls'
-									),
-									' '
-								) : ''
-							)
-						)
+						{ height: 300, threshold: 100, onVisible: onLazyLoaded },
+						visible ? visibleCard : notYetVisibleCard
 					)
 				);
 			}
@@ -19908,6 +19992,13 @@
 
 		return BookmarkCard;
 	})(Component);
+
+	/*
+				<div className='card-description'>
+				<div  dangerouslySetInnerHTML={{__html: description}} ></div>
+			</div>
+
+	*/
 
 	var BookmarksExplorer = (function (_Component2) {
 		_inherits(BookmarksExplorer, _Component2);

@@ -8,7 +8,51 @@ import InjectCss   from '../wg-inject-css/InjectCss.es6.js';
 let {Component,  PropTypes} = React;
 let {findDOMNode} = ReactDOM;
 
+var Normalizer = (function() {
+	let knownFormats =
+	{
+		  'other'   : '-',
+			'api' : 'api',
+			'webservicexml' : 'api',
+			'webservicejson' : 'api',
+			'datastream': 'api',
+			'othergeo'   : 'geo',
+			'htmltable' : 'table',
+			'xml' : 'xml',
+			'marcandmarcxml' : 'xml',
+			'geo' : 'geo',
+			'kmlshp' : 'geo',
+			'kml' : 'geo',
+			'spreadsheet': 'table',
+			'csv': 'table',
+			'database': 'db',
+			'onlinedatabase': 'db',
+			'xmlatomrss': 'rss',
+			'pdf': 'pdf',
+			'html': 'html',
+	};
+
+	function normalizeFormats(format) {
+
+
+		return format.split(/\s*,\s*/).reduce((acc, d) => {
+			  let m = d.match(/\[(.*?)\]\((.*?)\)/);
+				if(m) { d = m[1]; }
+				d = d.toLowerCase();
+				d = d.replace(/[^a-z]/g, '');
+				d = knownFormats[d] || d;
+				if(d !== '-' && acc.indexOf(d) === -1)  { acc.push(d); }
+				return acc;
+		}, []).join(', ');
+	}
+
+	return {normalizeFormats}
+
+} ())
+
+
 class BookmarkCard extends Component {
+// based on http://codepen.io/doonnn/pen/QbBKxv?editors=110
 
 	constructor(props) {
 		super(props);
@@ -27,7 +71,7 @@ class BookmarkCard extends Component {
 		const {d, i}       = this.props;
 		const {visible}    = this.state;
 		let {onLazyLoaded} = this.bounded;
-		let {title, url, thumbSrc, agency, cost, license} = d;
+		let {title, url, thumbSrc, description, agency, cost, license, format} = d;
 		let hasCost = (cost.length && cost !== 'No') ? true : false;
 
 		let licenseIcon = 'fa-question';
@@ -35,36 +79,61 @@ class BookmarkCard extends Component {
 		if(license.length && license.match(/No known New Zealand copyright-related restrictions/i)) { licenseIcon = "fa fa-beer"; }
 		if(!licenseIcon) { console.log(license); }
 
-		// <a href={url}><svg width="16" height="16" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1408 928v320q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h704q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113v-320q0-14 9-23t23-9h64q14 0 23 9t9 23zm384-864v512q0 26-19 45t-45 19-45-19l-176-176-652 652q-10 10-23 10t-23-10l-114-114q-10-10-10-23t10-23l652-652-176-176q-19-19-19-45t19-45 45-19h512q26 0 45 19t19 45z"/></svg></a>
-		// based on http://codepen.io/doonnn/pen/QbBKxv?editors=110
+		let formatList = Normalizer.normalizeFormats(format);
+		if(!description.length) { description = 'N/A'; }
+
+		let visibleCard = (
+			<div className="card">
+				<div className="card-img">
+					<img src={thumbSrc}></img>
+					<div className="card-img-placeholder"></div>
+				</div>
+
+				 <div className='card-action'>
+					<a href={url} target="blank"><i id="action-btn" className="fa fa-angle-right"></i></a>
+				</div>
+
+				 <div className="card-caption">
+						<h1>{title}</h1>
+						<span className="publisher">{agency}</span>
+						<div className="card-description"> {description} </div>
+				 </div>
+
+				 <div className="card-tags">
+				 	{formatList   ? <div className="tag-wrapper"><i className="format">{formatList}</i> </div> : '' }
+				 	{licenseIcon  ? <div className="tag-wrapper"><i className={'license fa ' + licenseIcon}></i></div> : '' }
+				 	{hasCost      ? <div className="tag-wrapper"><i className="cost fa fa-usd"></i> </div> : '' }
+				 </div>
+			 </div>
+			 );
+
+			 let notYetVisibleCard = (
+	 				<div className="card">
+	 					<div className="card-img">
+	 						<p>Loading...</p>
+	 						<div className="card-img-placeholder"></div>
+	 					</div>
+							 <div className="card-caption">
+									<h1>{title}</h1>
+ 						 </div>
+					 </div>
+			 );
 		return (
 			<wg-bookmark-card>
-				<LazyLoader height={200} threshold={100} onVisible={onLazyLoaded}>
-					<div className="card">
-						 <div className="card-img">
-							 {visible ? <img src={thumbSrc}></img> : ''}
-							 <div className="card-img-placeholder"></div>
-						 </div>
-						 <div className="card-caption">
-							  <div className='card-action'>
-								 <a href={url} target="blank"><i id="action-btn" className="fa fa-angle-right"></i></a>
-							 </div>
-							 <div className="card-caption-inner">
-								 <h1>{title}</h1>
-								 <span className="date">{agency}</span>
-							 </div>
-						 </div>
-						 <div className="card-tags">
-							 {licenseIcon  ? <div className="tag-wrapper"><i className={'license fa ' + licenseIcon}></i></div> : '' }
-							 {hasCost      ? <div className="tag-wrapper"><i className="cost fa fa-usd"></i> </div> : '' }
-							 {true  ? <div className="tag-wrapper"><i className="format">tsv,xls</i> </div> : '' }
-						 </div>
-					 </div>
+				<LazyLoader height={300} threshold={100} onVisible={onLazyLoaded}>
+					{visible ? visibleCard : notYetVisibleCard }
 				</LazyLoader>
 			</wg-bookmark-card>
 		)
 	}
 }
+
+/*
+			<div className='card-description'>
+			<div  dangerouslySetInnerHTML={{__html: description}} ></div>
+		</div>
+
+*/
 
 export default class BookmarksExplorer extends Component {
 

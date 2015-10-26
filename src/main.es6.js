@@ -33,12 +33,13 @@ export default function main() {
 			return acc + ' ' + (arr || []).join(' ');
 		}, '');
 		let title   = getLongestValue(props.title);
+		let description   = getLongestValue(props.description);
 		let agency  = getLongestValue(props.agency);
 		let cost    = getLongestValue(props.cost);
 		let license = getLongestValue(props.license);
-		let format = getLongestValue(props.format);
+		let format  = getLongestValue(props.format);
 		let thumbSrc = '../dist/assets/url_thumbs/tn_'+sha1+'.jpg';
-		return {title, url, thumbSrc,searchText, agency, cost, license, format};
+		return {title, url, thumbSrc,searchText, description, agency, cost, license, format};
 	});
 
 	function debounce(fn, delay) {
@@ -70,8 +71,11 @@ export default function main() {
 		ReactDOM.render(
 			(<wg-app>
 				<nav>
-					<h1>New Zealand Datasets</h1>
-					<h2>A compilation of various lists of resources found on the internet.</h2>
+					<div className='nav-text'>
+						<h1>New Zealand Datasets</h1>
+						<h2>A compilation of various lists of resources found on the internet.</h2>
+					</div>
+					<div className='nav-band'></div>
 				</nav>
 				<main>
 					<aside>
