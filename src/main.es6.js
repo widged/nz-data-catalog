@@ -83,7 +83,9 @@ export default function main() {
 					<aside>
 						<SearchInput onChange={onDebounceSearchChange} />
 					</aside>
-					<BookmarksExplorer list={list}/>
+					<section><div className='wrapper'>
+							<BookmarksExplorer list={list}/>
+					</div></section>
 				</main>
 			</wg-app>),
 			document.getElementById('app')
