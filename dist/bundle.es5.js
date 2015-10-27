@@ -191,7 +191,15 @@
 						null,
 						_react2['default'].createElement(_componentsWgSearchInputSearchInputReactEs6Js2['default'], { onChange: onDebounceSearchChange })
 					),
-					_react2['default'].createElement(_componentsWgBookmarksExplorerBookmarksExplorer2['default'], { list: list })
+					_react2['default'].createElement(
+						'section',
+						null,
+						_react2['default'].createElement(
+							'div',
+							{ className: 'wrapper' },
+							_react2['default'].createElement(_componentsWgBookmarksExplorerBookmarksExplorer2['default'], { list: list })
+						)
+					)
 				)
 			), document.getElementById('app'));
 		}
