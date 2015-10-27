@@ -19992,7 +19992,7 @@
 					null,
 					_react2['default'].createElement(
 						_wgLazyLoaderLazyLoader2['default'],
-						{ height: 300, threshold: 100, onVisible: onLazyLoaded },
+						{ height: 283, threshold: 40, onVisible: onLazyLoaded },
 						visible ? visibleCard : notYetVisibleCard
 					)
 				);
@@ -20023,9 +20023,10 @@
 			value: function render() {
 				var list = this.props.list;
 
+				// class='lazyload-viewport'
 				return _react2['default'].createElement(
 					'wg-data-catalog',
-					{ 'class': 'lazyload-viewport' },
+					null,
 					_react2['default'].createElement(
 						'div',
 						null,
