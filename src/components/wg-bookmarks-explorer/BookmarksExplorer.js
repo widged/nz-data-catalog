@@ -139,7 +139,7 @@ export default class BookmarksExplorer extends Component {
 
 	render() {
 		let {list} = this.props;
-		// class='lazyload-viewport'
+		// '
 		return (
 			<wg-data-catalog>
 				<div>
