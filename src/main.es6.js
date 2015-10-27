@@ -11,6 +11,8 @@ let {findDOMNode} = ReactDOM;
 // let x = require('https://spreadsheets.google.com/feeds/list/1M-dAy2_oaHugkx8kPYguA_IrYVEKWeejLPCFth506qY/od6/public/values?alt=json-in-script');
 // console.log(x);
 // view-source:https://spreadsheets.google.com/feeds/list/1M-dAy2_oaHugkx8kPYguA_IrYVEKWeejLPCFth506qY/od6/public/values?alt=json-in-script
+// https://docs.google.com/spreadsheet/pub?key=1M-dAy2_oaHugkx8kPYguA_IrYVEKWeejLPCFth506qY&single=true&gid=0&output=csv
+
 
 export default function main() {
 
@@ -38,7 +40,7 @@ export default function main() {
 		let cost    = getLongestValue(props.cost);
 		let license = getLongestValue(props.license);
 		let format  = getLongestValue(props.format);
-		let thumbSrc = '../dist/assets/url_thumbs/tn_'+sha1+'.jpg';
+		let thumbSrc = props.thumbnail && props.thumbnail.length ? props.thumbnail : '../dist/assets/url_thumbs/tn_'+sha1+'.jpg';
 		return {title, url, thumbSrc,searchText, description, agency, cost, license, format};
 	});
 
@@ -70,13 +72,13 @@ export default function main() {
 	function render(list) {
 		ReactDOM.render(
 			(<wg-app>
-				<nav>
-					<div className='nav-text'>
+				<header>
+					<div className='header-text'>
 						<h1>New Zealand Datasets</h1>
 						<h2>A compilation of various lists of resources found on the internet.</h2>
 					</div>
-					<div className='nav-band'></div>
-				</nav>
+					<div className='header-band'></div>
+				</header>
 				<main>
 					<aside>
 						<SearchInput onChange={onDebounceSearchChange} />
