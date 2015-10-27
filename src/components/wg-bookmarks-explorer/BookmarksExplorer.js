@@ -120,7 +120,7 @@ class BookmarkCard extends Component {
 			 );
 		return (
 			<wg-bookmark-card>
-				<LazyLoader height={300} threshold={100} onVisible={onLazyLoaded}>
+				<LazyLoader height={283} threshold={40} onVisible={onLazyLoaded}>
 					{visible ? visibleCard : notYetVisibleCard }
 				</LazyLoader>
 			</wg-bookmark-card>
@@ -140,7 +140,7 @@ export default class BookmarksExplorer extends Component {
 	render() {
 		let {list} = this.props;
 		return (
-			<wg-data-catalog  class='lazyload-viewport'>
+			<wg-data-catalog>
 				<div>
 					<ul>{list.map((d, i) => {return <li key={'i_'+i}><BookmarkCard d={d}  i={i} /></li>;})}</ul>
 				</div>
