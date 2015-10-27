@@ -39,6 +39,7 @@ aside {
   top: 0;
   bottom: 0;
   left: 0;
+  z-index: 1;
   width: 200px;
 }
 
@@ -66,7 +67,7 @@ section .wrapper ul {
 
 section .wrapper ul > li {
   display: inline-block;
-  margin: 6px;
+  margin: 9px;
   cursor: default;
 }
 
