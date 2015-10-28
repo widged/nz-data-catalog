@@ -74,14 +74,18 @@ export default function main() {
 			(<wg-app>
 				<header>
 					<div className='header-text'>
-						<h1>New Zealand Datasets</h1>
-						<h2>A compilation of various lists of resources found on the internet.</h2>
+						<h1>New Zealand Data Catalog</h1>
+						<h2>A compilation of various lists of links of reusable NZ datasets</h2>
 					</div>
 					<div className='header-band'></div>
 				</header>
 				<main>
 					<aside>
 						<SearchInput onChange={onDebounceSearchChange} />
+						<div className="about">
+							<p>Many geospatial datasets are not included. Use <a href="data.govt.nz">data.govt.nz</a> to search for them.</p>
+					    <p><a href="http://widged.github.io/nz-data-catalog/" target="blank">About</a></p>
+						</div>
 					</aside>
 					<section><div className='wrapper'>
 							<BookmarksExplorer list={list}/>
