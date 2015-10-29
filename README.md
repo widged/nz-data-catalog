@@ -1,1 +1,1 @@
-See [http://widged.github.io/nz-data-catalog/|index.html] for information.
+See [index.html](http://widged.github.io/nz-data-catalog/) for information.
